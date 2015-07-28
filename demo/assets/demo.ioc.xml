@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<model id="demo">
+    <bean id="test1" class="com.example.demo.Computer" layz="true">
+       <advice  value="com.example.demo.RunnerAdvice"></advice>
+    </bean>
+    <bean id="test" class="com.example.demo.Runner" layz="true">
+        <ref name="computer" value="demo_test1" class="com.example.demo.IComputer"></ref>
+         <advice  value="com.example.demo.RunnerAdvice"></advice>
+        
+    </bean>
+</model>
