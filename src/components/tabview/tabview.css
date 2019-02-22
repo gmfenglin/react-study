@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0; }
+
+.tab-container {
+  overflow: hidden; }
+
+.tab-header {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #D4D4D4;
+  border-bottom-width: 0;
+  position: relative;
+  padding: 0;
+  padding-top: 2px;
+  overflow: hidden; }
+  .tab-header a, .tab-header a:focus {
+    text-decoration: none;
+    outline: none; }
+  .tab-header a:hover {
+    background-color: #e6e6e6;
+    text-decoration: none;
+    outline: none; }
+  .tab-header .tab-scroller {
+    position: absolute;
+    display: -webkit-flex;
+    /* Safari */
+    display: flex;
+    align-items: center;
+    height: 28px;
+    width: 18px;
+    font-size: 1px;
+    cursor: pointer;
+    z-index: 1; }
+  .tab-header .tab-scroller-left {
+    left: 0; }
+  .tab-header .tab-scroller-right {
+    right: 0; }
+
+.tab-wrap {
+  overflow: hidden;
+  margin: 0;
+  padding: 0; }
+
+.tabs {
+  list-style-type: none;
+  display: -webkit-flex;
+  /* Safari */
+  display: flex;
+  flex-wrap: nowrap;
+  height: 26px;
+  margin: 0px;
+  padding: 0px;
+  padding-left: 4px;
+  width: 50000px;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #D4D4D4; }
+
+.tab-inner {
+  display: inline-block;
+  text-decoration: none;
+  margin: 0;
+  padding: 0 10px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  white-space: nowrap;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px 5px 0 0;
+  color: #777;
+  border-color: #D4D4D4; }
+
+.tab-title {
+  padding-right: 8px;
+  padding-left: 4px; }
+
+.tab-nav {
+  margin: 1px 4px 0 0;
+  padding: 0;
+  position: relative;
+  border: 0;
+  background-color: #ffffff;
+  color: #777;
+  font-weight: normal;
+  border-bottom: 1px solid #ffffff; }
+  .tab-nav .tab-close {
+    position: absolute;
+    font-size: 1px;
+    display: inline-block;
+    height: 12px;
+    padding: 0;
+    top: 50%;
+    margin-top: -6px;
+    overflow: hidden;
+    width: 12px;
+    right: 5px;
+    opacity: 0.6; }
+    .tab-nav .tab-close:hover {
+      background-color: #e6e6e6; }
+
+.tab-selected {
+  background-color: #ffffff;
+  color: #777;
+  background-repeat: repeat-x;
+  margin: 1px 4px -1px 0;
+  border-bottom: 1px solid #ffffff; }
+  .tab-selected .tab-title {
+    font-weight: bold !important; }
+  .tab-selected a {
+    background-color: #ffffff;
+    color: #777;
+    border-bottom: 1px solid #ffffff; }
+  .tab-selected a:hover {
+    background-color: #ffffff; }
