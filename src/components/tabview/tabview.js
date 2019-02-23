@@ -7,11 +7,11 @@ import {
   } from 'react-router-dom';
 import './tabview.css';
 function TabScroller(props){
-    return props.condition?<div className={['tab-scroller',props.direction=='left'?'tab-scroller-left icofont-circled-left':'tab-scroller-right icofont-circled-right'].join(' ')}></div>:null;
+    return props.condition?<div onClick={()=>props.scroller(props.obj)} className={['tab-scroller',props.direction=='left'?'tab-scroller-left icofont-circled-left':'tab-scroller-right icofont-circled-right'].join(' ')}></div>:null;
 }
 function TabNavItem(props){
     if(props.selected){
-        props.context.location.pathname=props.path;
+        props.context.props.location.pathname=props.path;
     }
     return <li className={['tab-nav',props.selected?'tab-selected':''].join(' ')}>
                 <Link to={props.path} className={['tab-inner',props.icon].join(' ')}  onClick={(e)=>{
@@ -28,7 +28,6 @@ function TabNavItem(props){
             </li>
 }
 function TabNavContainer(props){
-    console.log(props);
     return <div className="tab-wrap">
             <ul className="tabs">
                 {props.navItems.map((navItem,index)=><TabNavItem path={navItem.path} icon={navItem.icon} index={index} clickClose={props.clickClose} context={props.context} key={navItem.key} itemKey={navItem.key} clickFun={props.clickFun} title={navItem.title} selected={navItem.selected}/>)} 
@@ -39,40 +38,70 @@ function TabContainer(props){
     return <div className="tab-container"> {props.header} {props.content}</div>
 }
 function TabContent(props){
-    return  <div className="tab-content">{props.context.children}</div>
+    return  <div className="tab-content">{props.context.props.children}</div>
 }
 class TabView extends React.Component {
     constructor(props) {
         super(props);
-        console.log(this);
-        this.state = {
-            leftCondition:false,
-            rightCondition:false, 
-            
-        };
+       
+       
         this.clickFun.bind(this);
         this.clickClose.bind(this);
+        this.scrollLeft.bind(this);
+        this.scrollRight.bind(this);
+        this.scrollBy.bind(this);
       }
-      clickClose(key,props,index,e){
-        console.log(key+"--close");
-        props.closeTab(key,index);
+      clickClose(key,obj,index,e){
+        obj.props.closeTab(key,index);
       }
-      clickFun(key,props,e){
-        props.selectedTab(key);
+      clickFun(key,obj,e){
+        obj.props.selectedTab(key);
+      }
+      
+        scrollLeft(obj){
+			obj.scrollBy(100,obj);
+		}
+		scrollRight(obj){
+			 obj.scrollBy(-100,obj);
+		}
+		scrollBy(deltaX,obj){
+			document.querySelector('.tab-wrap').scrollLeft=Math.min(document.querySelector('.tab-wrap').scrollLeft + deltaX, ((document.querySelector('.tab-nav').clientWidth+4)*(obj.props.navItems.length+1)-document.querySelector('.tab-header').clientWidth));
+					 
+		}
+      componentDidMount(){
+          const that=this;
+        window.addEventListener('resize', function(){
+                  
+                 
+        });	
       }
     render() {
-        const {leftCondition,rightCondition}=this.state;
-        const {navItems}=this.props;
+        const {navItems,scrollerCondition}=this.props;
         return <TabContainer header={<div className="tab-header">
-        <TabScroller direction={"left"} condition={leftCondition}/>
-        <TabScroller direction={"right"} condition={rightCondition}/>
-        <TabNavContainer navItems={navItems} context={this.props} clickClose={this.clickClose}clickFun={this.clickFun}/>
-    </div>} content={<TabContent context={this.props}/>}/>
+        <TabScroller direction={"left"} condition={scrollerCondition} obj={this} scroller={this.scrollLeft}/>
+        <TabScroller direction={"right"} condition={scrollerCondition} obj={this} scroller={this.scrollRight}/>
+        <TabNavContainer navItems={navItems} context={this} clickClose={this.clickClose}clickFun={this.clickFun}/>
+    </div>} content={<TabContent context={this}/>}/>
     }
 }
+function  isScorll(newCount){
+    let flag=false;
+      if(document.querySelector('.tab-nav')==null){
+         
+          return flag;
+      }
+      flag=(document.querySelector('.tab-nav').clientWidth+4)*(newCount+1)>document.querySelector('.tab-header').clientWidth;
+      if(!flag){
+          document.querySelector('.tab-wrap').scrollLeft=0;
+      }
+      return flag;
+     
+  } 
 const mapStateToProps = (state) => {
+    const {navItems}=state.tabview;
     return {
-        navItems: state.tabview.navItems
+        navItems,
+        scrollerCondition:isScorll(navItems.length)
     }
   }
   function mapDispatchToProps(dispatch) {
@@ -82,13 +111,15 @@ const mapStateToProps = (state) => {
                     key: key
                 });
             },
-            closeTab(key,index){
+            closeTab(key,index,callback){
                 dispatch({
                     type: 'CLOSE_TAB',
                     key: key,
-                    index:index
+                    index:index,
+                    callback:callback
                 }); 
-            } 
+            },
+           
         }
   }
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(TabView));

@@ -1,5 +1,7 @@
 const initialState={
-    navItems:[{ path:"/a",title:"首页",selected:true,key:"home",icon:"icofont-home"},{icon:"icofont-at",path:"/b",title:"仓库管理",selected:false,key:"key1"},{icon:"icofont-basket",path:"/c",title:"库存总览",selected:false,key:"key2"}],
+    navItems:[
+      { path:"/a",title:"首页",selected:true,key:"home",icon:"icofont-home"}
+    ],
     indexSelected:1
 };
 function createReducer(initialState, handlers) {
@@ -63,11 +65,34 @@ function updateObject(oldObject, newValues) {
 				if(index<indexSelected){
 					selectedIndex=indexSelected-1;
 				}
-		}
-   
+    }
     return updateObject(state, {navItems : newState,indexSelected:selectedIndex});
+  }
+  function addTab(state,action){
+    const {navItems}=state;
+    const {navItem}=action;
+    let flag=false;
+    for(let i=0;i<navItems.length;i++){
+      if(navItem.key==navItems[i].key){
+        flag=true;
+        break;
+      }
+    }
+    if(flag){
+      return selectedTab(state,{key:navItem.key});
+    }else{
+      let newState=[];
+      for(let i=0;i<navItems.length;i++){
+          newState[i]=updateObject(navItems[i],{selected:false});
+      }
+      navItem.selected=true;
+      newState[newState.length]=navItem;
+      return updateObject(state, {navItems : newState,indexSelected:newState.length-1});
+    }
   }
 export default createReducer(initialState,{
 'SELECTED_TAB':selectedTab,
-'CLOSE_TAB':closeTab
+'CLOSE_TAB':closeTab,
+'ADD_TAB':addTab
+
 });

@@ -1,0 +1,35 @@
+html, body, #app {
+  height: 100%;
+  width: 100%; }
+
+.panel-container {
+  display: -webkit-flex;
+  /* Safari */
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 100%;
+  width: 100%; }
+  .panel-container .panel-top {
+    height: 100px;
+    width: 100%;
+    background-color: blue; }
+  .panel-container .panel-content {
+    display: -webkit-flex;
+    /* Safari */
+    display: flex;
+    flex: 1;
+    justify-content: flex-start; }
+    .panel-container .panel-content .panel-menu {
+      width: 125px;
+      background-color: red; }
+    .panel-container .panel-content .panel-work {
+      width: 1px;
+      flex: 1; }
+  .panel-container .panel-footer {
+    position: relative;
+    top: 0;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    background-color: orange; }

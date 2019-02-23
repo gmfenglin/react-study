@@ -114,3 +114,6 @@
     border-bottom: 1px solid #ffffff; }
   .tab-selected a:hover {
     background-color: #ffffff; }
+
+.tab-content {
+  padding: 4px; }
