@@ -1,4 +1,4 @@
-import {SELECTED_TAB,CLOSE_TAB,ADD_TAB} from './actionTypes.js';
+import {SELECTED_TAB,CLOSE_TAB,ADD_TAB,HOME_TAB} from './actionTypes.js';
 export const selectedTab=(key)=>{
         return {
                 type: SELECTED_TAB,
@@ -19,4 +19,10 @@ export  const addTab=(navItem)=>{
                 type: ADD_TAB,
                 navItem:navItem
         }
+  }
+  export const homeTab=(path)=>{
+          return {
+               type:HOME_TAB,
+               path:path   
+          };
   }

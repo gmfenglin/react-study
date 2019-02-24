@@ -6,7 +6,7 @@ import TabContainer from './tabContainer.js'
 import TabScroller from './tabScroller.js'
 import TabNavContainer from './tabNavContainer.js'
 import TabContent from './tabContent.js'
-import {selectedTab,closeTab} from '../actions.js'
+import {selectedTab,closeTab,homeTab} from '../actions.js'
 import './style.css'
 
 class TabView extends React.Component {
@@ -29,6 +29,7 @@ class TabView extends React.Component {
        
       componentDidMount(){
           const that=this;
+          
         window.addEventListener('resize', function(){
                   
                  
@@ -71,6 +72,9 @@ const mapStateToProps = (state) => {
             onClose:(key,index,callback)=>{
                 dispatch(closeTab(key,index,callback)); 
             },
+            onHome:(path)=>{
+                dispatch(homeTab(path));
+            }
            
         }
   }

@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import {
-   Route
-  } from 'react-router-dom';
+
 
 import Top from './top.js'
 import Menu from './menu.js'
@@ -12,25 +10,26 @@ import Footer from './footer.js'
 import {actions,TabView} from '../../tabview';
 import axios from 'axios';
 import './style.css'
+ 
 class WorkPanel extends React.Component{
     componentDidMount(){
+      this.props.onHome("/home");
       axios.get("/api/user/list").then((response)=>{
         console.log(response);
       }).catch((error)=>{
         console.log(error);
       });
     }
+    //,
     render(){
-        const {addTab,routes}=this.props;
+        const {addTab,routeList}=this.props;
         return <div className="panel-container" >
             <Top />
             <div className="panel-content">
                 <Menu onNav={addTab}/>
                 <div className="panel-work">
                 <TabView >
-                    {routes.map((route)=>{
-                         <Route path={route.path} component={route.component}/>
-                    })}
+                  {routeList}
                 </TabView>
                 </div>
                 
@@ -40,19 +39,20 @@ class WorkPanel extends React.Component{
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state)
     return {
         navItems: state.tabview.navItems
     }
   }
   const mapDispatchToProps=(dispatch)=> {
-      const {addTab}=actions;
+      const {addTab,homeTab}=actions;
      
       return {
-          addTab:(path,index)=>{
-              let navItem={icon:"icofont-basket",path:path,title:"库存总览"+index,selected:false,key:"key5"+index};
+          addTab:(navItem)=>{
             dispatch(addTab(navItem)); 
-          }
+          },
+          onHome:(path)=>{
+            dispatch(homeTab(path));
+        }
     };
   }
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(WorkPanel));

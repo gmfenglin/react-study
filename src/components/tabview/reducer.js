@@ -1,4 +1,4 @@
-import {SELECTED_TAB,CLOSE_TAB,ADD_TAB} from './actionTypes.js';
+import {SELECTED_TAB,CLOSE_TAB,ADD_TAB,HOME_TAB} from './actionTypes.js';
 
 function updateObject(oldObject, newValues) {
     return Object.assign({}, oldObject, newValues);
@@ -14,7 +14,6 @@ function updateObject(oldObject, newValues) {
 
 
   function selectedTab(state,action){
-    console.log("selected 2")
       let indexSelected=state.indexSelected;
       let count=0;
     const newState=updateItemInArray(state.navItems, action.key, (item,itemId )=> {
@@ -82,11 +81,15 @@ function updateObject(oldObject, newValues) {
       return updateObject(state, {navItems : newState,indexSelected:newState.length-1});
     }
   }
-
+function homeTab(state,action){
+  const {path}=action
+  let newState=[];
+      newState[newState.length]= { path:path,title:"首页",selected:true,key:"home",icon:"icofont-home"};
+  return updateObject(state, {navItems : newState});
+}
 
 export default(state={
   navItems:[
-    { path:"/a",title:"首页",selected:true,key:"home",icon:"icofont-home"},
   ],
   indexSelected:1
 },action)=>{
@@ -99,6 +102,9 @@ export default(state={
     }
     case ADD_TAB:{
       return addTab(state,action);
+    }
+    case HOME_TAB:{
+      return homeTab(state,action);
     }
     default:return state;
   }
