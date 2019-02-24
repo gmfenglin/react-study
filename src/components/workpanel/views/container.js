@@ -1,58 +1,41 @@
 import React from 'react';
-import { withRouter } from 'react-router'
-import {actions,TabView} from '../tabview';
-import axios from 'axios';
-import './workpanel.css';
-import {
-   
-    Route,
-    Link
-  } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 import { connect } from 'react-redux'
-// test code
-function Ta(props){
-    return <div>a</div>
-}
-function Tb(props){
-    return <div>b</div>
-}
-function Tc(props){
-    return <div>c</div>
-}
-/*
- 
-*/
+import { withRouter } from 'react-router'
+import {
+   Route
+  } from 'react-router-dom';
+
+import Top from './top.js'
+import Menu from './menu.js'
+import Footer from './footer.js'
+import {actions,TabView} from '../../tabview';
+import axios from 'axios';
+import './style.css'
 class WorkPanel extends React.Component{
     componentDidMount(){
-      axios.get("/api/user").then((response)=>{
+      axios.get("/api/user/list").then((response)=>{
         console.log(response);
       }).catch((error)=>{
         console.log(error);
       });
     }
     render(){
+        const {addTab,routes}=this.props;
         return <div className="panel-container" >
-            <div className="panel-top">top</div>
+            <Top />
             <div className="panel-content">
-                <div className="panel-menu">
-                <Link to="/b" onClick={()=> this.props.addTab("/b",2)}>
-                B
-                </Link>
-                <div></div>
-                <Link to="/c" onClick={()=> this.props.addTab("/c",3)}>
-                C
-                </Link>
-                </div>
+                <Menu onNav={addTab}/>
                 <div className="panel-work">
                 <TabView >
-                    <Route path="/a" component={Ta}/>
-                    <Route path="/b" component={Tb}/>
-                    <Route path="/c" component={Tc}/>
+                    {routes.map((route)=>{
+                         <Route path={route.path} component={route.component}/>
+                    })}
                 </TabView>
                 </div>
                 
             </div>
-           <div className="panel-footer">footer</div>
+           <Footer/>
         </div>
     }
 }
