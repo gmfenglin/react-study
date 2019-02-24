@@ -1,6 +1,6 @@
-import {combineReducers} from 'redux';
-import tabviewReducers from './components/tabview/tabview.reducers.js';
+import {combineReducers,createStore} from 'redux';
+import {reducer as tabviewReducers}  from './components/tabview';
 const reducer=combineReducers({
     tabview:tabviewReducers
 });
- export default reducer;
+ export default createStore(reducer);

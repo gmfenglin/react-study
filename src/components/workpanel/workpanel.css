@@ -13,7 +13,8 @@ html, body, #app {
   .panel-container .panel-top {
     height: 100px;
     width: 100%;
-    background-color: blue; }
+    background-color: #24292e;
+    color: rgba(255, 255, 255, 0.7); }
   .panel-container .panel-content {
     display: -webkit-flex;
     /* Safari */

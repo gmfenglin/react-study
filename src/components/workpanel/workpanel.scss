@@ -12,7 +12,8 @@ html,body,#app{
     .panel-top{
         height: 100px;
         width: 100%;
-        background-color: blue;
+        background-color: #24292e;
+        color: hsla(0,0%,100%,.7);
     }
     .panel-content{
         display: -webkit-flex; /* Safari */

@@ -1,19 +1,4 @@
-const initialState={
-    navItems:[
-      { path:"/a",title:"首页",selected:true,key:"home",icon:"icofont-home"}
-    ],
-    indexSelected:1
-};
-function createReducer(initialState, handlers) {
-    return function reducer(state = initialState, action) {
-      if (handlers.hasOwnProperty(action.type)) {
-        return handlers[action.type](state, action)
-      } else {
-        return state
-      }
-    }
-  }
-
+import {SELECTED_TAB,CLOSE_TAB,ADD_TAB} from './actionTypes.js';
 
 function updateObject(oldObject, newValues) {
     return Object.assign({}, oldObject, newValues);
@@ -26,7 +11,10 @@ function updateObject(oldObject, newValues) {
 
     return updatedItems;
 }
+
+
   function selectedTab(state,action){
+    console.log("selected 2")
       let indexSelected=state.indexSelected;
       let count=0;
     const newState=updateItemInArray(state.navItems, action.key, (item,itemId )=> {
@@ -38,6 +26,8 @@ function updateObject(oldObject, newValues) {
     });
     return updateObject(state, {navItems : newState,indexSelected:indexSelected});
   }
+
+
   function closeTab(state,action){
       const {navItems,indexSelected}=state;
       const {key,index}=action;
@@ -68,6 +58,8 @@ function updateObject(oldObject, newValues) {
     }
     return updateObject(state, {navItems : newState,indexSelected:selectedIndex});
   }
+
+  
   function addTab(state,action){
     const {navItems}=state;
     const {navItem}=action;
@@ -90,9 +82,24 @@ function updateObject(oldObject, newValues) {
       return updateObject(state, {navItems : newState,indexSelected:newState.length-1});
     }
   }
-export default createReducer(initialState,{
-'SELECTED_TAB':selectedTab,
-'CLOSE_TAB':closeTab,
-'ADD_TAB':addTab
 
-});
+
+export default(state={
+  navItems:[
+    { path:"/a",title:"首页",selected:true,key:"home",icon:"icofont-home"},
+  ],
+  indexSelected:1
+},action)=>{
+  switch(action.type){
+    case SELECTED_TAB:{
+      return selectedTab(state,action);
+    }
+    case CLOSE_TAB:{
+      return closeTab(state,action);
+    }
+    case ADD_TAB:{
+      return addTab(state,action);
+    }
+    default:return state;
+  }
+}

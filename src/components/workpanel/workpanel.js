@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router'
-import TabView from '../tabview/tabview.js';
+import {actions,TabView} from '../tabview';
 import './workpanel.css';
 import {
    
@@ -56,13 +56,13 @@ const mapStateToProps = (state) => {
         navItems: state.tabview.navItems
     }
   }
-  function mapDispatchToProps(dispatch) {
+  const mapDispatchToProps=(dispatch)=> {
+      const {addTab}=actions;
+     
       return {
-          addTab(path,index){
-            dispatch({
-                type: 'ADD_TAB',
-                navItem:{icon:"icofont-basket",path:path,title:"库存总览"+index,selected:false,key:"key5"+index}
-            }); 
+          addTab:(path,index)=>{
+              let navItem={icon:"icofont-basket",path:path,title:"库存总览"+index,selected:false,key:"key5"+index};
+            dispatch(addTab(navItem)); 
           }
     };
   }
