@@ -1,6 +1,16 @@
-import {combineReducers,createStore} from 'redux';
+import {combineReducers,createStore,compose,applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import {reducer as tabviewReducers}  from './components/tabview';
 const reducer=combineReducers({
     tabview:tabviewReducers
 });
- export default createStore(reducer);
+const win = window;
+
+const middleware = [];
+middleware.push(thunkMiddleware);
+const reduxEnhancers = compose(
+    applyMiddleware(...middleware),
+    (win && win.devToolsExtension ? win.devToolsExtension() : f => f)
+);
+
+export default createStore(reducer, {}, reduxEnhancers)

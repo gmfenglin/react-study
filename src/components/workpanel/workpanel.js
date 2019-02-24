@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router'
 import {actions,TabView} from '../tabview';
+import axios from 'axios';
 import './workpanel.css';
 import {
    
@@ -23,7 +24,11 @@ function Tc(props){
 */
 class WorkPanel extends React.Component{
     componentDidMount(){
-      
+      axios.get("/api/user").then((response)=>{
+        console.log(response);
+      }).catch((error)=>{
+        console.log(error);
+      });
     }
     render(){
         return <div className="panel-container" >
@@ -52,6 +57,7 @@ class WorkPanel extends React.Component{
     }
 }
 const mapStateToProps = (state) => {
+    console.log(state)
     return {
         navItems: state.tabview.navItems
     }

@@ -69,7 +69,6 @@ const mapStateToProps = (state) => {
                 dispatch(selectedTab(key));
             },
             onClose:(key,index,callback)=>{
-                console.log("close");
                 dispatch(closeTab(key,index,callback)); 
             },
            

@@ -1,6 +1,8 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const baseWebpackConfig = require('./webpack.config.base');
+const apiMocker = require('webpack-api-mocker');
+const mocker = path.resolve(__dirname, './mock/index.js');
 
 const port = 8888;
 
@@ -19,5 +21,13 @@ module.exports = merge(baseWebpackConfig, {
         overlay: true, //Shows a full-screen overlay in the browser
         stats: "errors-only",//To show only errors in your bundle
         open: false, //When open is enabled, the dev server will open the browser.
+        before(app) {
+            apiMocker(app, mocker, {
+                proxy: {
+                    '/api/*': 'https://localhost:3721'
+                },
+                changeHost: true
+            });
+        }
     },
 });
