@@ -96,7 +96,7 @@ class TabView extends React.Component {
         let menuData=[];
         console.log(index);
         if(index==0&& itemKey=='home'&&eleArray.length>1){
-          menuData.push({text:"关闭其他",key:"other",navKey:itemKey,navIndex:index});
+          menuData.push({text:"关闭其他",key:"closeOther",navKey:itemKey,navIndex:index});
         }else if(itemKey!='home'){
           if(index==1&&eleArray.length==2){
             menuData.push({text:"关闭",key:"close",navKey:itemKey,navIndex:index});

@@ -140,8 +140,13 @@ function diyCloseTab(state,action){
 
           newState[i]=updateObject(navItems[i],{});
       }
-      newState.splice(1,navIndex-1);
-      newState.splice(2,newState.length-1);
+      if(navIndex==0){
+        newState.splice(1,newState.length-1);
+      }else{
+        newState.splice(1,navIndex-1);
+        newState.splice(2,newState.length-1);
+      }
+      
       let newSelectedIndex=0;
       for(let i=0;i<newState.length;i++){
         if(newState[i].selected){
@@ -149,8 +154,14 @@ function diyCloseTab(state,action){
         }
       }
       if(newSelectedIndex==0){
-        newState[1].selected=true;
-        newSelectedIndex=1;
+        if(navIndex==0){
+          newState[0].selected=true;
+          newSelectedIndex=0;
+        }else{
+          newState[1].selected=true;
+          newSelectedIndex=1;
+        }
+       
       }
       return updateObject(state, {navItems : newState,indexSelected:newSelectedIndex});
     }
