@@ -1,5 +1,5 @@
 import React from 'react';
- const TabContainer=({header,content})=>{
-    return <div className="tab-container"> {header} {content}</div>
+ const TabContainer=({rightMenu,header,content})=>{
+    return <div className="tab-container"> {rightMenu}{header} {content}</div>
 }
 export default TabContainer

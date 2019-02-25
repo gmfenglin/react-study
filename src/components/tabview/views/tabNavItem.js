@@ -2,12 +2,15 @@ import {
     Link
   } from 'react-router-dom';
   import React from 'react';
-const TabNavItem=({selected,icon,title,context,path,itemKey,index,onSelected,onClose})=>{
+const TabNavItem=({selected,icon,title,context,path,itemKey,index,onSelected,onClose,onRightMenu})=>{
     if(selected){
         context.props.location.pathname=path;
     }
     return <li className={['tab-nav',selected?'tab-selected':''].join(' ')}>
-                <Link to={path} className={['tab-inner',icon].join(' ')}  onClick={(e)=>{
+                <Link to={path} className={['tab-inner',icon].join(' ')} onContextMenu={(e)=>{
+                    e.preventDefault();
+                    onRightMenu(itemKey,index);
+                }} onClick={(e)=>{
                     onSelected(itemKey,context,e)
                 }}>
                 <span className="tab-title">{title}</span>

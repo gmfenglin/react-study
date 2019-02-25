@@ -6,6 +6,7 @@ import TabContainer from './tabContainer.js'
 import TabScroller from './tabScroller.js'
 import TabNavContainer from './tabNavContainer.js'
 import TabContent from './tabContent.js'
+import RightMenu from './rightMenu.js'
 import {selectedTab,closeTab,homeTab} from '../actions.js'
 import './style.css'
 let navItemsFlag=false;
@@ -20,6 +21,7 @@ class TabView extends React.Component {
         this.onSelected.bind(this);
         this.onClose.bind(this);
         this.onScroll.bind(this);
+        this.onRightMenu.bind(this);
       }
       onClose(key,obj,index,e){
         obj.props.onClose(key,index);
@@ -84,13 +86,22 @@ class TabView extends React.Component {
           });
         });	
       }
+      onRightMenu(itemKey,index){
+        console.log(itemKey+"--"+index);
+      }
+      onSelectedMeun(item,index){
+
+      }
     render() {
         const {navItems}=this.props;
         const {scrollFlag}=this.state;
-        return <TabContainer header={<div className="tab-header">
+        return <TabContainer rightMenu={
+          <RightMenu isShowRightMenu={true} menuData={[{text:"关闭"},{text:"关闭其他"},{text:"关闭左边"},{text:"关闭右边"},{text:"关闭所有"}]} onSelectedMeun={this.onSelectedMeun}></RightMenu>
+        } header={<div className="tab-header">
+        
         <TabScroller direction={"left"} condition={scrollFlag} obj={this} onScroll={this.onScroll}/>
         <TabScroller direction={"right"} condition={scrollFlag} obj={this} onScroll={this.onScroll}/>
-        <TabNavContainer navItems={navItems} context={this} onClose={this.onClose} onSelected={this.onSelected}/>
+        <TabNavContainer navItems={navItems} context={this} onRightMenu={this.onRightMenu} onClose={this.onClose} onSelected={this.onSelected}/>
     </div>} content={<TabContent context={this}/>}/>
     }
 }
