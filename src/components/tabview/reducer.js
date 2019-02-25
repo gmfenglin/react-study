@@ -122,13 +122,13 @@ function diyCloseTab(state,action){
           newState[i]=updateObject(navItems[i],{});
       }
       newState.splice(navIndex+1,newState.length-1);
-      let newSelectedIndex=0;
+      let newSelectedIndex=-1;
       for(let i=0;i<newState.length;i++){
         if(newState[i].selected){
           newSelectedIndex=i;
         }
       }
-      if(newSelectedIndex==0){
+      if(newSelectedIndex==-1){
         newState[newState.length-1].selected=true;
         newSelectedIndex=newState.length-1;
       }
