@@ -14,6 +14,10 @@ import './style.css'
 class WorkPanel extends React.Component{
     componentDidMount(){
       this.props.onHome("/home");
+      for(let i=0;i<15;i++){
+        this.props.addTab({ path:"/c",title:"首页"+i,selected:true,key:"home"+i,icon:"icofont-home"});
+      }
+      
       axios.get("/api/user/list").then((response)=>{
         console.log(response);
       }).catch((error)=>{

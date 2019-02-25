@@ -8,10 +8,15 @@ import TabNavContainer from './tabNavContainer.js'
 import TabContent from './tabContent.js'
 import {selectedTab,closeTab,homeTab} from '../actions.js'
 import './style.css'
-
+let navItemsFlag=false;
 class TabView extends React.Component {
     constructor(props) {
         super(props);
+        this.state={
+          left:0,
+          right:0,
+          scrollFlag:false
+        }
         this.onSelected.bind(this);
         this.onClose.bind(this);
         this.onScroll.bind(this);
@@ -23,45 +28,94 @@ class TabView extends React.Component {
         
         obj.props.onSelected(key);
       }
-      onScroll(obj,deltax){
-        document.querySelector('.tab-wrap').scrollLeft=Math.min(document.querySelector('.tab-wrap').scrollLeft + deltaX, ((document.querySelector('.tab-nav').clientWidth+4)*(obj.props.navItems.length+1)-document.querySelector('.tab-header').clientWidth));
-      }
+      onScroll(obj,direction){
+        let eleArray= document.querySelectorAll('.tab-nav');
+
+        let length=4;
+      
+        if(direction=='left'){
+          for(let i=obj.state.left;i<eleArray.length;i++){
+            length+=eleArray[i].clientWidth;
+          }
+        }else{
+          for(let i=eleArray.length-obj.state.right-1;i>=0;i--){
+            length+=eleArray[i].clientWidth;
+          }
+        }
+    
+       let flag=length>document.querySelector('.tab-header').clientWidth;
+        if(flag || (obj.state.left>0 && direction=="right") || (obj.state.right>0 && direction=="left")){
+          let left=direction=='left'?obj.state.left+1:obj.state.left-1<0?0:obj.state.left-1;
+          let right=direction=='right'?obj.state.right+1:obj.state.right-1<0?0:obj.state.right-1;
+          obj.setState({
+            left,
+            right
+          });
+          let tx=direction=='left'?eleArray[left].clientWidth:-eleArray[right].clientWidth;
+          document.querySelector('.tab-wrap').scrollLeft+=tx;
+        }
        
+      }
+      shouldComponentUpdate(nextProps,nextState){
+        navItemsFlag=false;
+        if(nextProps.navItems.length!=this.props.navItems.length){
+          navItemsFlag=true;
+          
+        }
+        return true;
+      }
+      componentDidUpdate(){
+        if(navItemsFlag){
+          const that=this;
+          let flag=isScorll();
+          that.setState({
+            scrollFlag:isScorll()
+          });
+        }
+      }
       componentDidMount(){
           const that=this;
-          
+          that.setState({
+            scrollFlag:isScorll()
+          });
         window.addEventListener('resize', function(){
-                  
-                 
+          that.setState({
+            scrollFlag:isScorll()
+          });
         });	
       }
     render() {
-        const {navItems,condition}=this.props;
+        const {navItems}=this.props;
+        const {scrollFlag}=this.state;
         return <TabContainer header={<div className="tab-header">
-        <TabScroller direction={"left"} condition={condition} obj={this} onScroll={this.onScroll}/>
-        <TabScroller direction={"right"} condition={condition} obj={this} onScroll={this.onScroll}/>
+        <TabScroller direction={"left"} condition={scrollFlag} obj={this} onScroll={this.onScroll}/>
+        <TabScroller direction={"right"} condition={scrollFlag} obj={this} onScroll={this.onScroll}/>
         <TabNavContainer navItems={navItems} context={this} onClose={this.onClose} onSelected={this.onSelected}/>
     </div>} content={<TabContent context={this}/>}/>
     }
 }
-function  isScorll(newCount){
+function  isScorll(){
     let flag=false;
       if(document.querySelector('.tab-nav')==null){
          
           return flag;
       }
-      flag=(document.querySelector('.tab-nav').clientWidth+4)*(newCount+1)>document.querySelector('.tab-header').clientWidth;
+     let eleArray= document.querySelectorAll('.tab-nav');
+     let length=4;
+     for(let i=0;i<eleArray.length;i++){
+        length+=eleArray[i].clientWidth;
+     }
+      flag=length>document.querySelector('.tab-header').clientWidth;
       if(!flag){
           document.querySelector('.tab-wrap').scrollLeft=0;
       }
       return flag;
      
   } 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state,ownerProps) => {
     const {navItems}=state.tabview;
     return {
-        navItems,
-        condition:isScorll(navItems.length)
+        navItems
     }
   }
   const mapDispatchToProps=(dispatch) =>{
