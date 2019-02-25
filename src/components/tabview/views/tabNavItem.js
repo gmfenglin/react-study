@@ -9,7 +9,7 @@ const TabNavItem=({selected,icon,title,context,path,itemKey,index,onSelected,onC
     return <li className={['tab-nav',selected?'tab-selected':''].join(' ')}>
                 <Link to={path} className={['tab-inner',icon].join(' ')} onContextMenu={(e)=>{
                     e.preventDefault();
-                    onRightMenu(itemKey,index);
+                    onRightMenu(context,itemKey,index);
                 }} onClick={(e)=>{
                     onSelected(itemKey,context,e)
                 }}>

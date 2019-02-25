@@ -1,4 +1,5 @@
-import {SELECTED_TAB,CLOSE_TAB,ADD_TAB,HOME_TAB} from './actionTypes.js';
+import {SELECTED_TAB,CLOSE_TAB,ADD_TAB,HOME_TAB,DIY_CLOSE_TAB} from './actionTypes.js';
+
 
 function updateObject(oldObject, newValues) {
     return Object.assign({}, oldObject, newValues);
@@ -88,6 +89,87 @@ function homeTab(state,action){
   return updateObject(state, {navItems : newState});
 }
 
+function diyCloseTab(state,action){
+  const {navItems,indexSelected}=state;
+  const {key,navKey,navIndex}=action.item;
+  switch(key){
+    case 'close':{
+      return closeTab(state,{key:navKey,index:navIndex});
+    }
+    case 'closeLeft':{
+      let newState=[];
+      for(let i=0;i<navItems.length;i++){
+
+          newState[i]=updateObject(navItems[i],{});
+      }
+      newState.splice(1,navIndex-1);
+      let newSelectedIndex=0;
+      for(let i=0;i<newState.length;i++){
+        if(newState[i].selected){
+          newSelectedIndex=i;
+        }
+      }
+      if(newSelectedIndex==0){
+        newState[1].selected=true;
+        newSelectedIndex=1;
+      }
+      return updateObject(state, {navItems : newState,indexSelected:newSelectedIndex});
+    }
+    case 'closeRight':{
+      let newState=[];
+      for(let i=0;i<navItems.length;i++){
+
+          newState[i]=updateObject(navItems[i],{});
+      }
+      newState.splice(navIndex+1,newState.length-1);
+      let newSelectedIndex=0;
+      for(let i=0;i<newState.length;i++){
+        if(newState[i].selected){
+          newSelectedIndex=i;
+        }
+      }
+      if(newSelectedIndex==0){
+        newState[newState.length-1].selected=true;
+        newSelectedIndex=newState.length-1;
+      }
+      return updateObject(state, {navItems : newState,indexSelected:newSelectedIndex});
+    }
+    case 'closeOther':{
+      let newState=[];
+      for(let i=0;i<navItems.length;i++){
+
+          newState[i]=updateObject(navItems[i],{});
+      }
+      newState.splice(1,navIndex-1);
+      newState.splice(2,newState.length-1);
+      let newSelectedIndex=0;
+      for(let i=0;i<newState.length;i++){
+        if(newState[i].selected){
+          newSelectedIndex=i;
+        }
+      }
+      if(newSelectedIndex==0){
+        newState[1].selected=true;
+        newSelectedIndex=1;
+      }
+      return updateObject(state, {navItems : newState,indexSelected:newSelectedIndex});
+    }
+    case 'closeAll':{
+      let newState=[];
+      for(let i=0;i<navItems.length;i++){
+
+          newState[i]=updateObject(navItems[i],{});
+      }
+      newState.splice(1,newState.length-1);
+     
+      let newSelectedIndex=0;
+      newState[0].selected=true;
+      return updateObject(state, {navItems : newState,indexSelected:newSelectedIndex});
+    }
+  }
+  return state;
+}
+
 export default(state={
   navItems:[
   ],
@@ -105,6 +187,9 @@ export default(state={
     }
     case HOME_TAB:{
       return homeTab(state,action);
+    }
+    case DIY_CLOSE_TAB:{
+      return diyCloseTab(state,action);
     }
     default:return state;
   }

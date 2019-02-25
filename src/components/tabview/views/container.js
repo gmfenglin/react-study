@@ -7,7 +7,7 @@ import TabScroller from './tabScroller.js'
 import TabNavContainer from './tabNavContainer.js'
 import TabContent from './tabContent.js'
 import RightMenu from './rightMenu.js'
-import {selectedTab,closeTab,homeTab} from '../actions.js'
+import {selectedTab,closeTab,homeTab,diyCloseTab} from '../actions.js'
 import './style.css'
 let navItemsFlag=false;
 class TabView extends React.Component {
@@ -16,7 +16,11 @@ class TabView extends React.Component {
         this.state={
           left:0,
           right:0,
-          scrollFlag:false
+          scrollFlag:false,
+          isShowRightMenu:false,
+          leftMenu:0,
+          topMenu:0,
+          menuData:[]
         }
         this.onSelected.bind(this);
         this.onClose.bind(this);
@@ -86,17 +90,50 @@ class TabView extends React.Component {
           });
         });	
       }
-      onRightMenu(itemKey,index){
-        console.log(itemKey+"--"+index);
+      onRightMenu(obj,itemKey,index){
+        let eleArray= document.querySelectorAll('.tab-nav');
+        let ele=eleArray[index];
+        let menuData=[];
+        console.log(index);
+        if(index==0&& itemKey=='home'&&eleArray.length>1){
+          menuData.push({text:"关闭其他",key:"other",navKey:itemKey,navIndex:index});
+        }else if(itemKey!='home'){
+          if(index==1&&eleArray.length==2){
+            menuData.push({text:"关闭",key:"close",navKey:itemKey,navIndex:index});
+          }else{
+            if(index==eleArray.length-1){
+              menuData.push({text:"关闭",key:"close",navKey:itemKey,navIndex:index});
+              menuData.push({text:"关闭左边",key:"closeLeft",navKey:itemKey,navIndex:index});
+            }else{
+              
+              menuData.push({text:"关闭",key:"close",navKey:itemKey,navIndex:index});
+              menuData.push({text:"关闭所有",key:"closeAll",navKey:itemKey,navIndex:index});
+              if(index!=1){
+                menuData.push({text:"关闭其他",key:"closeOther",navKey:itemKey,navIndex:index});
+                menuData.push({text:"关闭左边",key:"closeLeft",navKey:itemKey,navIndex:index});
+              }
+              menuData.push({text:"关闭右边",key:"closeRight",navKey:itemKey,navIndex:index});
+            }
+          }
+        }
+        obj.setState({
+          isShowRightMenu:true,
+          leftMenu:ele.offsetLeft+4,
+          topMenu:ele.offsetTop+25,
+          menuData:menuData
+        });
       }
-      onSelectedMeun(item,index){
-
+      onSelectedMeun(obj,item,index){
+        obj.props.onDiyClose(item);
+        obj.setState({
+          isShowRightMenu:false
+        });
       }
     render() {
         const {navItems}=this.props;
-        const {scrollFlag}=this.state;
+        const {scrollFlag,isShowRightMenu,leftMenu,topMenu,menuData}=this.state;
         return <TabContainer rightMenu={
-          <RightMenu isShowRightMenu={true} menuData={[{text:"关闭"},{text:"关闭其他"},{text:"关闭左边"},{text:"关闭右边"},{text:"关闭所有"}]} onSelectedMeun={this.onSelectedMeun}></RightMenu>
+          <RightMenu isShowRightMenu={isShowRightMenu} left={leftMenu} top={topMenu} obj={this} menuData={menuData} onSelectedMeun={this.onSelectedMeun}></RightMenu>
         } header={<div className="tab-header">
         
         <TabScroller direction={"left"} condition={scrollFlag} obj={this} onScroll={this.onScroll}/>
@@ -134,11 +171,14 @@ const mapStateToProps = (state,ownerProps) => {
             onSelected:(key)=>{
                 dispatch(selectedTab(key));
             },
-            onClose:(key,index,callback)=>{
-                dispatch(closeTab(key,index,callback)); 
+            onClose:(key,index)=>{
+                dispatch(closeTab(key,index)); 
             },
             onHome:(path)=>{
                 dispatch(homeTab(path));
+            },
+            onDiyClose:(item)=>{
+              dispatch(diyCloseTab(item));
             }
            
         }
