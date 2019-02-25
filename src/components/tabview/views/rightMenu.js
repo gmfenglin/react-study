@@ -1,6 +1,6 @@
 import React from 'react';
-const RightMenu=({obj,isShowRightMenu,menuData,onSelectedMeun,left,top})=>{
-    return  <div className="right-menu" style={{display:isShowRightMenu?"block":"none",left:left,top:top}}>
+const RightMenu=({obj,isShowRightMenu,onMouseLeave,menuData,onSelectedMeun,left,top})=>{
+    return  <div className="right-menu" onMouseLeave={()=>{onMouseLeave(obj)}} style={{display:isShowRightMenu?"block":"none",left:left,top:top}}>
     <ul className="right-menu-ul">
         {
             menuData.map((item,index)=>{

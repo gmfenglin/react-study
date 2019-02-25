@@ -26,6 +26,7 @@ class TabView extends React.Component {
         this.onClose.bind(this);
         this.onScroll.bind(this);
         this.onRightMenu.bind(this);
+        this.onMouseLeave.bind(this);
       }
       onClose(key,obj,index,e){
         obj.props.onClose(key,index);
@@ -123,6 +124,11 @@ class TabView extends React.Component {
           menuData:menuData
         });
       }
+      onMouseLeave(obj){
+        obj.setState({
+          isShowRightMenu:false
+        });
+      }
       onSelectedMeun(obj,item,index){
         obj.props.onDiyClose(item);
         obj.setState({
@@ -133,7 +139,7 @@ class TabView extends React.Component {
         const {navItems}=this.props;
         const {scrollFlag,isShowRightMenu,leftMenu,topMenu,menuData}=this.state;
         return <TabContainer rightMenu={
-          <RightMenu isShowRightMenu={isShowRightMenu} left={leftMenu} top={topMenu} obj={this} menuData={menuData} onSelectedMeun={this.onSelectedMeun}></RightMenu>
+          <RightMenu isShowRightMenu={isShowRightMenu} onMouseLeave={this.onMouseLeave} left={leftMenu} top={topMenu} obj={this} menuData={menuData} onSelectedMeun={this.onSelectedMeun}></RightMenu>
         } header={<div className="tab-header">
         
         <TabScroller direction={"left"} condition={scrollFlag} obj={this} onScroll={this.onScroll}/>
