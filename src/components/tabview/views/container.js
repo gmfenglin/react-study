@@ -95,7 +95,6 @@ class TabView extends React.Component {
         let eleArray= document.querySelectorAll('.tab-nav');
         let ele=eleArray[index];
         let menuData=[];
-        console.log(index);
         if(index==0&& itemKey=='home'&&eleArray.length>1){
           menuData.push({text:"关闭其他",key:"closeOther",navKey:itemKey,navIndex:index});
         }else if(itemKey!='home'){
@@ -117,9 +116,13 @@ class TabView extends React.Component {
             }
           }
         }
+        let scrollDistance=0;
+        for(let i=0;i<obj.state.left;i++){
+          scrollDistance+=eleArray[i].clientWidth+4;
+        }
         obj.setState({
           isShowRightMenu:true,
-          leftMenu:ele.offsetLeft+4,
+          leftMenu:ele.offsetLeft+4-scrollDistance,
           topMenu:ele.offsetTop+25,
           menuData:menuData
         });
