@@ -47,7 +47,6 @@
 		.tab-scroller-right{
 			right: 0;
 		}
-		
 	}
 .tab-wrap{
 			overflow: hidden;
@@ -68,7 +67,6 @@
 				border-style: solid;
 				border-width: 0 0 1px 0;
 				border-color: #D4D4D4;
-				
 			}
 .tab-inner{
 						display: inline-block;
@@ -83,16 +81,13 @@
 						border-style: solid;
 						border-radius: 5px 5px 0 0;
 						color: #777;
-						border-color: #D4D4D4;
-						
-						
+						border-color: #D4D4D4;	
 					}
 .tab-title{
                             padding-right: 8px;
                             padding-left:4px;
 						}
 .tab-nav{
-					
 					margin: 1px 4px 0 0;
 					padding: 0;
 					position: relative;
@@ -119,10 +114,8 @@
 							&:hover{
 								background-color: #f60;	
 								color: #fff;
-							}
-							
+							}	
 						}
-					
 				}
 				.tab-selected{
 						background-color: #ffffff;
@@ -156,7 +149,6 @@
 		list-style-type: none;
 		font-size: 14px;
 		.right-menu-li{
-			
 			.right-menu-a{
 				display: block;
 				height: 26px;
@@ -172,7 +164,6 @@
 					color: #fff;
 				}
 			}
-			
 		}
 	}
 }
