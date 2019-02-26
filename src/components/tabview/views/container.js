@@ -52,14 +52,14 @@ class TabView extends React.Component {
     
        let flag=length>document.querySelector('.tab-header').clientWidth;
         if(flag || (obj.state.left>0 && direction=="right") || (obj.state.right>0 && direction=="left")){
+          let tx=direction=='left'?eleArray[obj.state.left].clientWidth+4:-eleArray[obj.state.left-1].clientWidth-4;
+          document.querySelector('.tab-wrap').scrollLeft+=tx;
           let left=direction=='left'?obj.state.left+1:obj.state.left-1<0?0:obj.state.left-1;
           let right=direction=='right'?obj.state.right+1:obj.state.right-1<0?0:obj.state.right-1;
           obj.setState({
             left,
             right
           });
-          let tx=direction=='left'?eleArray[left].clientWidth:-eleArray[right].clientWidth;
-          document.querySelector('.tab-wrap').scrollLeft+=tx;
         }
        
       }

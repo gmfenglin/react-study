@@ -68,7 +68,7 @@
   display: inline-block;
   text-decoration: none;
   margin: 0;
-  padding: 0 10px;
+  padding: 0 0 0 8px;
   height: 25px;
   line-height: 25px;
   text-align: center;
@@ -80,7 +80,7 @@
   border-color: #D4D4D4; }
 
 .tab-title {
-  padding-right: 8px;
+  margin: 0 8px 0 0;
   padding-left: 4px; }
 
 .tab-nav {
@@ -93,7 +93,7 @@
   font-weight: normal;
   border-bottom: 1px solid #ffffff; }
   .tab-nav .tab-close {
-    position: absolute;
+    margin: 0 8px 0 0;
     font-size: 1px;
     display: inline-block;
     background-color: #D4D4D4;
@@ -101,11 +101,8 @@
     background-repeat: no-repeat;
     height: 12px;
     padding: 0;
-    top: 50%;
-    margin-top: -6px;
     overflow: hidden;
     width: 12px;
-    right: 5px;
     opacity: 0.6; }
     .tab-nav .tab-close:hover {
       background-color: #f60;

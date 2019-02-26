@@ -14,12 +14,13 @@ const TabNavItem=({selected,icon,title,context,path,itemKey,index,onSelected,onC
                     onSelected(itemKey,context,e)
                 }}>
                 <span className="tab-title">{title}</span>
-                </Link>
                 {
-                    itemKey=="home"?null:<a className="tab-close icofont-close-circled" onClick={(e)=>{
+                    itemKey=="home"?null:<span className="tab-close icofont-close-circled" onClick={(e)=>{
                         onClose(itemKey,context,index,e)
-                    }}></a>
+                    }}></span>
                 }
+                </Link>
+                
                 
             </li>
 }
